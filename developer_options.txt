@@ -1,0 +1,3 @@
+.ukagaka\,nonar,noupdate
+developer_options,nonar,noupdate
+md5buildignore.txt,nonar,noupdate

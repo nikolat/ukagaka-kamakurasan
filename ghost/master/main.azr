@@ -1,0 +1,91 @@
+//******************************************************************************
+// required event
+//******************************************************************************
+string OnFirstBoot()          { return "\0\s[0]\1\s[10]\e"; }
+string OnBoot()               { return "\0\s[0]\1\s[10]\e"; }
+string OnGhostChanged()       { return "\0\s[0]\1\s[10]\e"; }
+string OnShellChanged()       { return "\0\s[0]\1\s[10]\e"; }
+string OnWindowStateRestore() { return "\0\s[0]\1\s[10]\e"; }
+string OnSurfaceRestore()     { return ""; }
+string OnClose()              { return "\-\e"; }
+
+//******************************************************************************
+// update event
+//******************************************************************************
+string OnUpdateBegin()            { return "\0\_qUpdate Begin.\_q\e"; }
+string OnUpdateReady()            { return "\0\_qUpdating...\_q\e"; }
+string OnUpdateComplete(dict ref) { return "\0\_q" + ref["Reference0"] + ".\_q\e"; }
+string OnUpdateFailure(dict ref)  { return "\0\_q" + ref["Reference0"] + ".\_q\e"; }
+
+//******************************************************************************
+// mouse event
+//******************************************************************************
+//------------------------------------------------------------------------------
+// ダブルクリック
+//------------------------------------------------------------------------------
+array records_cache = {};
+string OnMouseDoubleClick(dict ref)
+{
+	string repo = "omi.bsky.social";
+	string collection = "app.bsky.feed.post";
+	int limit = 20;
+	array records;
+	if (_aryvn(records_cache) > 0) {
+		records = records_cache;
+	}
+	else {
+		string url = "https://bsky.social/xrpc/com.atproto.repo.listRecords?repo=" + repo + "&collection=" + collection + "&limit=" + limit;
+		array response = _httpget(url, "utf8");
+		records = _json2azv(response)["records"];
+		records_cache = records;
+	}
+	if (_aryvn(records) == 0) {
+		return "\0No records.\e";
+	}
+	array texts = {};
+	for (int i = 0; records[i] != nil; i++) {
+		texts += records[i]["value"]["text"];
+	}
+	string s = "\0\_q\f[bold,true]@" + repo + "\f[bold,default]\_q\n";
+	s += escapeAllTags(_randselect(texts));
+	return s;
+}
+//------------------------------------------------------------------------------
+// 関数名：escapeAllTags
+// 機能　：全てのさくらスクリプトタグをエスケープ（\付加）する
+// 引数　：s エスケープしたい文字列
+// 戻り値：エスケープされた文字列
+//------------------------------------------------------------------------------
+string escapeAllTags(string s)
+{
+	string ESCAPE_TAG_1 = _bytechar(3) + _bytechar(3);
+	string ESCAPE_TAG_2 = _bytechar(4) + _bytechar(4);
+	s = _strreplace(s, "\\\\", ESCAPE_TAG_1);
+	s = _strreplace(s, "\\%", ESCAPE_TAG_2);
+	s = _strreplace(s, "\\", "\\\\");
+	s = _strreplace(s, "%", "\\%");
+	s = _strreplace(s, ESCAPE_TAG_2, "\\%");
+	s = _strreplace(s, ESCAPE_TAG_1, "\\\\");
+	return s;
+}
+
+//******************************************************************************
+// UI event
+//******************************************************************************
+//------------------------------------------------------------------------------
+// ショートカットキー
+//------------------------------------------------------------------------------
+string OnKeyPress(dict ref)
+{
+	return _fncstr("key_" + ref["Reference0"], ref);
+}
+string key_r(dict ref)
+{
+	return "\![reload,shiori]\0\s[0]\_qReloaded.\_q\e";
+}
+
+//******************************************************************************
+// network update
+//******************************************************************************
+string homeurl()    { return "https://raw.githubusercontent.com/nikolat/ukagaka-kamakurasan/main/"; }
+string useorigin1() { return "1"; }
