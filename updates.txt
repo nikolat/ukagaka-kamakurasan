@@ -1,0 +1,11 @@
+charset,UTF-8
+file,LICENSE65d3616852dbf7b1a6d4b53b00626032size=7048date=2012-12-21T00:00:00
+file,ghost/master/akari.dll604e9d9fa66b8ad367d22ccd682a74e4size=889856date=2012-12-21T00:00:00
+file,ghost/master/descript.txt1ca17d25f94b812eb4b19e21e1f41608size=274date=2012-12-21T00:00:00
+file,ghost/master/main.azr49c70635d82d703c9c9bf95ab269dacesize=3844date=2012-12-21T00:00:00
+file,install.txtbd6361dd07ea8e04e5459576d07810d6size=65date=2012-12-21T00:00:00
+file,readme.txtd55ebaa8ba4d102c503c90a794d94fb2size=619date=2012-12-21T00:00:00
+file,shell/master/descript.txteb3f223a196e9cfda29a6451f21d886asize=195date=2012-12-21T00:00:00
+file,shell/master/readme.txt6d225baa07010d5b1ff3203fa820ebb2size=47date=2012-12-21T00:00:00
+file,shell/master/surface0.png76a09aa1ab40e102e25645feb89b5268size=5351date=2012-12-21T00:00:00
+file,shell/master/surface10.png51785c69c22812f272609b3f3a1a9aecsize=225date=2012-12-21T00:00:00
